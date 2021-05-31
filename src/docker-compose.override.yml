@@ -8,7 +8,11 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-
+  catalogclient:
+    container_name: catalogclient
+    restart: always
+    ports:
+      - "3000:3000"
   catalog.api:
     container_name: catalog.api
     environment:
