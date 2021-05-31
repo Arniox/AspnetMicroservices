@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Catalog.API.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller")]
+    [Route("api/v1/[controller]")]
     public class CatalogController : ControllerBase
     {
         private readonly IProductRepository _repository;
@@ -26,7 +26,6 @@ namespace Catalog.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            //Get all products from repository
             var products = await _repository.GetProducts();
             return Ok(products);
         }
@@ -37,21 +36,12 @@ namespace Catalog.API.Controllers
         public async Task<ActionResult<Product>> GetProductById(string id)
         {
             var product = await _repository.GetProduct(id);
-            if(product == null)
+            if (product == null)
             {
                 _logger.LogError($"Product with id: {id}, not found.");
                 return NotFound();
             }
             return Ok(product);
-        }
-
-        [Route("[action]/{name}", Name = "GetProductByName")]
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductByName(string name)
-        {
-            var products = await _repository.GetProductByName(name);
-            return Ok(products);
         }
 
         [Route("[action]/{category}", Name = "GetProductByCategory")]
