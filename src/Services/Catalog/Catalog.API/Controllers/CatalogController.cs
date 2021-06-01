@@ -63,16 +63,30 @@ namespace Catalog.API.Controllers
 
         [HttpPut]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateProduct([FromBody] Product product)
         {
-            return Ok(await _repository.UpdateProduct(product));
+            //Update Product
+            var success = await _repository.UpdateProduct(product);
+
+            //Return Bad Request if success is false
+            if (!success)
+                return ValidationProblem();
+            return Ok(success);
         }
 
         [HttpDelete("{id:length(24)}", Name = "DeleteProduct")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteProductById(string id)
         {
-            return Ok(await _repository.DeleteProduct(id));
+            //Delete Product
+            var success = await _repository.DeleteProduct(id);
+
+            //Return Bad Request is success is false
+            if (!success)
+                return ValidationProblem();
+            return Ok(success);
         }
 
     }
