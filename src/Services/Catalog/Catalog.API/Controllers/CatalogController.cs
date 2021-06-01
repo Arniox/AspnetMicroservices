@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -24,18 +25,27 @@ namespace Catalog.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
+            //Get Products
             var products = await _repository.GetProducts();
+
+            //If List is empty
+            if (products.Count() == 0)
+                return NoContent();
             return Ok(products);
         }
 
         [HttpGet("{id:length(24)}", Name = "GetProduct")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<Product>> GetProductById(string id)
         {
+            //Get Product
             var product = await _repository.GetProduct(id);
+
+            //If No product was found
             if (product == null)
             {
                 _logger.LogError($"Product with id: {id}, not found.");
@@ -47,9 +57,15 @@ namespace Catalog.API.Controllers
         [Route("[action]/{category}", Name = "GetProductByCategory")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductByCategory(string category)
         {
+            //Get Products
             var products = await _repository.GetProductByCategory(category);
+
+            //If List is empty
+            if (products.Count() == 0)
+                return NoContent();
             return Ok(products);
         }
 
@@ -63,7 +79,7 @@ namespace Catalog.API.Controllers
 
         [HttpPut]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotModified)]
         public async Task<IActionResult> UpdateProduct([FromBody] Product product)
         {
             //Update Product
@@ -71,13 +87,13 @@ namespace Catalog.API.Controllers
 
             //Return Bad Request if success is false
             if (!success)
-                return ValidationProblem();
+                return StatusCode(304, success);
             return Ok(success);
         }
 
         [HttpDelete("{id:length(24)}", Name = "DeleteProduct")]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotModified)]
         public async Task<IActionResult> DeleteProductById(string id)
         {
             //Delete Product
@@ -85,7 +101,7 @@ namespace Catalog.API.Controllers
 
             //Return Bad Request is success is false
             if (!success)
-                return ValidationProblem();
+                return StatusCode(304, success);
             return Ok(success);
         }
 

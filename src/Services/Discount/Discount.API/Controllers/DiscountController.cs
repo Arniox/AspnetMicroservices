@@ -22,16 +22,21 @@ namespace Discount.API.Controllers
 
         [HttpGet("{productName}", Name = "GetDiscount")]
         [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.Created)]
         public async Task<ActionResult<Coupon>> GetDiscount(string productName)
         {
             //Get discount and return with OK Status code
             var discount = await _repository.GetDiscount(productName);
+
+            //If New default coupon was created, return
+            if (discount.ProductName == "No Discount")
+                return StatusCode(201, discount);
             return Ok(discount);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.NotModified)]
         public async Task<ActionResult<Coupon>> CreateDiscount([FromBody] Coupon coupon)
         {
             //Create discount and return with the GET endpoint
@@ -39,13 +44,13 @@ namespace Discount.API.Controllers
 
             //Return bad request if success is false
             if (!success)
-                return ValidationProblem();
+                return StatusCode(304, success);
             return CreatedAtRoute("GetDiscount", new { productName = coupon.ProductName }, coupon);
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.NotModified)]
         public async Task<ActionResult<Coupon>> UpdateDiscount([FromBody] Coupon coupon)
         {
             //Update discount and return OK
@@ -53,13 +58,13 @@ namespace Discount.API.Controllers
 
             //Return bad request if success is false
             if (!success)
-                return ValidationProblem();
+                return StatusCode(304, success);
             return Ok(success);
         }
 
         [HttpDelete]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(void), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NotModified)]
         public async Task<ActionResult<bool>> DeleteDiscount(string productName)
         {
             //Updaet discount and return OK
@@ -67,7 +72,7 @@ namespace Discount.API.Controllers
 
             //Return bad request if success is false
             if (!success)
-                return ValidationProblem();
+                return StatusCode(304, success);
             return Ok(success);
         }
     }

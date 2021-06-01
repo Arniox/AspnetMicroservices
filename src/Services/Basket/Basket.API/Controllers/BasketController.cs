@@ -21,12 +21,15 @@ namespace Basket.API.Controllers
 
         [HttpGet("{userName}", Name = "GetBasket")]
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.Created)]
         public async Task<ActionResult<ShoppingCart>> GetBasket(string userName)
         {
             //Get basket from Redis database
             var basket = await _repository.GetBasket(userName);
             //If empty, return new Database
-            return Ok(basket ?? new ShoppingCart(userName));
+            if (basket == null)
+                return StatusCode(201, new ShoppingCart(userName));
+            return Ok(basket);
         }
 
         [HttpPut]

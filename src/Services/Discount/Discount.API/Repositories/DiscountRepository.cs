@@ -30,7 +30,7 @@ namespace Discount.API.Repositories
             //Return default coupon information
             if(coupon == null)
                 return new Coupon
-                    { ProductName = "No Discount",Amount = 0,Description = "No Discount Desc" };
+                    { ProductName = "No Discount", Amount = 0, Description = "No Discount Desc" };
 
             //Return coupon
             return coupon;
