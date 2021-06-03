@@ -54,6 +54,21 @@ namespace Catalog.API.Controllers
             return Ok(product);
         }
 
+        [Route("[action]/{name}", Name = "GetProductByName")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductByName(string name)
+        {
+            //Get Products
+            var products = await _repository.GetProductByName(name);
+
+            //If List is empty
+            if (products.Count() == 0)
+                return NoContent();
+            return Ok(products);
+        }
+
         [Route("[action]/{category}", Name = "GetProductByCategory")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
@@ -62,6 +77,36 @@ namespace Catalog.API.Controllers
         {
             //Get Products
             var products = await _repository.GetProductByCategory(category);
+
+            //If List is empty
+            if (products.Count() == 0)
+                return NoContent();
+            return Ok(products);
+        }
+
+        [Route("[action]/{price}", Name = "GetProductBellowPrice")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductBellowPrice(int price)
+        {
+            //Get Products
+            var products = await _repository.GetProductBellowPrice(price);
+
+            //If List is empty
+            if (products.Count() == 0)
+                return NoContent();
+            return Ok(products);
+        }
+
+        [Route("[action]/{price}", Name = "GetProductAbovePrice")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductAbovePrice(int price)
+        {
+            //Get Products
+            var products = await _repository.GetProductAbovePrice(price);
 
             //If List is empty
             if (products.Count() == 0)

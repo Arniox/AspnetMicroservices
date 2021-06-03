@@ -37,6 +37,17 @@ namespace Catalog.API.Repositories
             FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Category, categoryName);
             return await _context.Products.Find(filter).ToListAsync(); //Get products by Category
         }
+        public async Task<IEnumerable<Product>> GetProductBellowPrice(int price)
+        {
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Lt(p => p.Price, price);
+            return await _context.Products.Find(filter).ToListAsync(); //Get products bellow price
+        }
+
+        public async Task<IEnumerable<Product>> GetProductAbovePrice(int price)
+        {
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Gt(p => p.Price, price);
+            return await _context.Products.Find(filter).ToListAsync(); //Get products above price
+        }
 
         //CRUD
         //POST
