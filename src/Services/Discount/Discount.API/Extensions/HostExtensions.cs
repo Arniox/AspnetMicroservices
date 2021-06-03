@@ -40,7 +40,7 @@ namespace Discount.API.Extensions
 
                     //Drop table if exists
                     connection.Execute("DROP TABLE IF EXISTS Coupon");
-                    //Create Table
+                    //Create table
                     connection.Execute(@"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
                                                                 ProductName VARCHAR(24) NOT NULL,
                                                                 Description TEXT,
