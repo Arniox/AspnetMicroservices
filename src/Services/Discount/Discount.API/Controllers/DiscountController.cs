@@ -62,7 +62,7 @@ namespace Discount.API.Controllers
             return Ok(success);
         }
 
-        [HttpDelete]
+        [HttpDelete("{productName}", Name = "DeleteDiscount")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NotModified)]
         public async Task<ActionResult<bool>> DeleteDiscount(string productName)
