@@ -11,8 +11,6 @@ namespace Catalog.API.Repositories
         Task<Product> GetProduct(string id);
         Task<IEnumerable<Product>> GetProductByName(string name);
         Task<IEnumerable<Product>> GetProductByCategory(string categoryName);
-        Task<IEnumerable<Product>> GetProductBellowPrice(int price);
-        Task<IEnumerable<Product>> GetProductAbovePrice(int price);
 
         //CRUD operations
         Task CreateProduct(Product product);

@@ -4,10 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Discount.API.Extensions
 {
@@ -45,7 +41,7 @@ namespace Discount.API.Extensions
                     //Drop table if exists
                     connection.Execute("DROP TABLE IF EXISTS Coupon");
                     //Create Table
-                    connection.Execute(@"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY,
+                    connection.Execute(@"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY, 
                                                                 ProductName VARCHAR(24) NOT NULL,
                                                                 Description TEXT,
                                                                 Amount INT)");
@@ -53,23 +49,13 @@ namespace Discount.API.Extensions
                     connection.Execute("INSERT INTO Coupon(ProductName, Description, Amount) VALUES('IPhone X', 'IPhone Discount', 150);");
                     connection.Execute("INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Samsung 10', 'Samsung Discount', 100);");
 
-                    //Get command
-                    /*using var command = new NpgsqlCommand
-                    {
-                        Connection = connection
-                    };
-                    //Set command text
-                    command.CommandText = "DROP TABLE IF EXISTS Coupon";
-                    command.ExecuteNonQuery();*/
-
                     logger.LogInformation("Migrated postresql database.");
                 }
                 catch (NpgsqlException ex)
                 {
-                    logger.LogError(ex, "An error occured while migrating the postressql database");
+                    logger.LogError(ex, "An error occurred while migrating the postresql database");
 
-                    //Retry up to 50 times
-                    if(retryForAvailability < 50)
+                    if (retryForAvailability < 50)
                     {
                         retryForAvailability++;
                         System.Threading.Thread.Sleep(2000);

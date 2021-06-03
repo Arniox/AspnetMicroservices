@@ -84,36 +84,6 @@ namespace Catalog.API.Controllers
             return Ok(products);
         }
 
-        [Route("[action]/{price}", Name = "GetProductBellowPrice")]
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductBellowPrice(int price)
-        {
-            //Get Products
-            var products = await _repository.GetProductBellowPrice(price);
-
-            //If List is empty
-            if (products.Count() == 0)
-                return NoContent();
-            return Ok(products);
-        }
-
-        [Route("[action]/{price}", Name = "GetProductAbovePrice")]
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductAbovePrice(int price)
-        {
-            //Get Products
-            var products = await _repository.GetProductAbovePrice(price);
-
-            //If List is empty
-            if (products.Count() == 0)
-                return NoContent();
-            return Ok(products);
-        }
-
         [HttpPost]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
