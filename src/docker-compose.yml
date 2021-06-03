@@ -26,7 +26,6 @@ services:
 
   discountdb:
     image: postgres
-
   discount.api:
     image: ${DOCKER_REGISTRY-}discountapi
     build:
