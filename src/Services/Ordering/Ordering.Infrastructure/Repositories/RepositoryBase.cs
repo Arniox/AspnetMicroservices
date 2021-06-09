@@ -22,35 +22,14 @@ namespace Ordering.Infrastructure.Repositories
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        /// <summary>
-        /// Get all items <typeparamref name="T"/> from Database Context
-        /// </summary>
-        /// <returns>IReadOnlyList <typeparamref name="T"/></returns>
         public async Task<IReadOnlyList<T>> GetAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
-
-        /// <summary>
-        /// Get all items <typeparamref name="T"/> from Database Context<para />
-        /// Where <typeparamref name="predicate"/>
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns>IReadOnlyList <typeparamref name="T"/></returns>
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbContext.Set<T>().Where(predicate).ToListAsync();
         }
-
-        /// <summary>
-        /// Get all items <typeparamref name="T"/> from Database Context<para />
-        /// Where <typeparamref name="predicate"/>
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="includeString"></param>
-        /// <param name="disableTracking"></param>
-        /// <returns>IReadOnlyList <typeparamref name="T"/></returns>
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeString = null, bool disableTracking = true)
         {
             //Create queryable object from dbcontext with type T
@@ -65,16 +44,6 @@ namespace Ordering.Infrastructure.Repositories
                 return await orderBy(query).ToListAsync(); //Return ordered list
             return await query.ToListAsync(); //Return unordered list
         }
-
-        /// <summary>
-        /// Get all items <typeparamref name="T"/> from Database Context<para />
-        /// Where <typeparamref name="predicate"/>
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="includes"></param>
-        /// <param name="disableTracking"></param>
-        /// <returns>IReadOnlyList <typeparamref name="T"/></returns>
         public async Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<Expression<Func<T, object>>> includes = null, bool disableTracking = true)
         {
             //Create queryable object from dbcontext with type T
@@ -89,45 +58,21 @@ namespace Ordering.Infrastructure.Repositories
                 return await orderBy(query).ToListAsync(); //Return ordered list
             return await query.ToListAsync(); //Return unordered list
         }
-
-        /// <summary>
-        /// Async get <typeparamref name="T"/> By <typeparamref name="id"/>
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns><typeparamref name="T"/></returns>
         public async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
-
-        /// <summary>
-        /// Async create new <typeparamref name="entity"/>
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns><typeparamref name="entity"/></returns>
         public async Task<T> AddAsync(T entity)
         {
             _dbContext.Set<T>().Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;
         }
-
-        /// <summary>
-        /// Async update <typeparamref name="T"/>
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
-
-        /// <summary>
-        /// Async delete <typeparamref name="entity"/>
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
         public async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
