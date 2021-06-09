@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+# Clients & Managers
   portainer:
     image: portainer/portainer-ce
   pgadmin:
@@ -8,13 +9,17 @@ services:
   catalogclient:
     image: mongoclient/mongoclient
 
+# Databases
   catalogdb:
     image: mongo
   basketdb:
     image: redis:alpine
   discountdb:
     image: postgres
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
 
+# API's & GRPC's
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
@@ -37,6 +42,7 @@ services:
       context: .
       dockerfile: Services/Discount/Discount.Grpc/Dockerfile
 
+# Volumes
 volumes:
   mongo_data:
   portainer_data:

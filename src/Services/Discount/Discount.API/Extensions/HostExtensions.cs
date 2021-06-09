@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using System.Threading;
 
 namespace Discount.API.Extensions
 {
@@ -58,7 +59,7 @@ namespace Discount.API.Extensions
                     if (retryForAvailability < 50)
                     {
                         retryForAvailability++;
-                        System.Threading.Thread.Sleep(2000);
+                        Thread.Sleep(2000);
                         MigrateDatabase<TContext>(host, retryForAvailability);
                     }
                 }

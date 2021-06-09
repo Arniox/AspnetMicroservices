@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+# Clients & Managers
   portainer:
     container_name: portainer
     restart: always
@@ -9,6 +10,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+
   pgadmin:
     container_name: pgadmin
     environment:
@@ -20,6 +22,13 @@ services:
     volumes:
       - pgadmin_data:/root/.pgadmin
 
+  catalogclient:
+    container_name: catalogclient
+    restart: always
+    ports:
+      - "3000:3000"
+
+# Databases
   catalogdb:
     container_name: catalogdb
     restart: always
@@ -27,37 +36,12 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-  catalogclient:
-    container_name: catalogclient
-    restart: always
-    ports:
-      - "3000:3000"
-  catalog.api:
-    container_name: catalog.api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
-    depends_on:
-      - catalogdb
-    ports:
-      - "8000:80"
 
   basketdb:
     container_name: basketdb
     restart: always
     ports:
       - "6379:6379"
-  basket.api:
-    container_name: basket.api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "CacheSettings:ConnectionString=basketdb:6379"
-      - "GrpcSettings:DiscountUri=http://discount.grpc"
-    depends_on:
-      - basketdb
-      - discount.grpc
-    ports:
-      - "8001:80"
 
   discountdb:
     container_name: discountdb
@@ -70,6 +54,38 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  orderdb:
+    container_name: orderdb
+    environment:
+      SA_PASSWORD: "Juud9LbggkE8qvcnBEQZ"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "1433:1433"
+# API's & GRPC's
+  catalog.api:
+    container_name: catalog.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+    depends_on:
+      - catalogdb
+    ports:
+      - "8000:80"
+
+  basket.api:
+    container_name: basket.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "CacheSettings:ConnectionString=basketdb:6379"
+      - "GrpcSettings:DiscountUri=http://discount.grpc"
+    depends_on:
+      - basketdb
+      - discount.grpc
+    ports:
+      - "8001:80"
+
   discount.api:
     container_name: discount.api
     environment:
@@ -89,4 +105,3 @@ services:
       - discountdb
     ports:
       - "8003:80"
-
