@@ -11,7 +11,7 @@ namespace Ordering.Infrastructure.Persistence
     public class OrderContextSeed
     {
         //Seed
-        public static async Task SeedAsync(OrderContext orderContext, ILogger<OrderContextSeed>)
+        public static async Task SeedAsync(OrderContext orderContext, ILogger<OrderContextSeed> logger)
         {
             //If any any record already
             if (!orderContext.Orders.Any())
@@ -19,6 +19,7 @@ namespace Ordering.Infrastructure.Persistence
                 orderContext.Orders.AddRange(GetPreconfiguredOrders());
                 //Save
                 await orderContext.SaveChangesAsync();
+                logger.LogInformation("Seeded database associated with context {DbContextName}", typeof(OrderContext).Name);
             }
         }
 
