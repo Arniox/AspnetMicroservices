@@ -55,7 +55,7 @@ namespace Ordering.Application.Features.Orders.Commands.CheckoutOrder
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Order {order.Id} failed due to an error with the mail service: {ex.Message}");
+                _logger.LogError($"Order {order.Id} email verification failed due to an error with the mail service: {ex.Message}");
             }
         }
     }
