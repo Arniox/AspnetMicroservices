@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Ordering.Application.Exceptions;
 using Ordering.Application.Features.Orders.Commands.CheckoutOrder;
 using Ordering.Application.Features.Orders.Commands.DeleteOrder;
 using Ordering.Application.Features.Orders.Commands.UpdateOrder;
@@ -51,8 +52,14 @@ namespace Ordering.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {
-            //Get result from command [FromBody]
-            await _mediator.Send(command); //Handle command
+            try
+            {
+                //Get result from command [FromBody]
+                await _mediator.Send(command); //Handle command
+            } catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             return NoContent();
         }
 
@@ -62,9 +69,15 @@ namespace Ordering.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> DeleteOrder(int id)
         {
-            //Get command
-            var command = new DeleteOrderCommand() { Id = id };
-            await _mediator.Send(command); //Handle
+            try
+            {
+                //Get command
+                var command = new DeleteOrderCommand() { Id = id };
+                await _mediator.Send(command); //Handle
+            } catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             return NoContent();
         }
     }

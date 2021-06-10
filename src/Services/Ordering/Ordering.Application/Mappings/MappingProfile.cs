@@ -14,7 +14,7 @@ namespace Ordering.Application.Mappings
             CreateMap<Order, OrdersVm>().ReverseMap();
             //Set up mapping profiles for visa versa Order to CheckoutOrderCommand
             CreateMap<Order, CheckoutOrderCommand>().ReverseMap();
-            //SEt up mapping profiles for visa versa Order to UpdateOrderCommand
+            //Set up mapping profiles for visa versa Order to UpdateOrderCommand
             CreateMap<Order, UpdateOrderCommand>().ReverseMap();
         }
     }
