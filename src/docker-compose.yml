@@ -22,7 +22,7 @@ services:
     image: postgres
 
   orderdb:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:latest
 
 # API's & GRPC's
   catalog.api:
@@ -49,13 +49,13 @@ services:
       context: .
       dockerfile: Services/Discount/Discount.Grpc/Dockerfile
 
-# Volumes
   ordering.api:
     image: ${DOCKER_REGISTRY-}orderingapi
     build:
       context: .
       dockerfile: Services/Ordering/Ordering.API/Dockerfile
 
+# Volumes
 volumes:
   mongo_data:
   portainer_data:

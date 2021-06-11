@@ -36,7 +36,9 @@ namespace Ordering.API.Extensions
                 catch(SqlException ex)
                 {
                     //Try again up to retry amount
+                    logger.LogError("--------------------------------------------Retry Count: {RetryCount}---------------------------------------\n\n", retryForAvailability);
                     logger.LogError(ex, "An error occurred while migrating the databased associated with context {DbContextName}", typeof(TContext).Name);
+                    logger.LogError("\n\n------------------------------------------------------------------------------------------------------------");
 
                     //Retry
                     if(retryForAvailability < 50)
