@@ -5,6 +5,10 @@ using Ordering.Application.Exceptions;
 using Ordering.Application.Features.Orders.Commands.CheckoutOrder;
 using Ordering.Application.Features.Orders.Commands.DeleteOrder;
 using Ordering.Application.Features.Orders.Commands.UpdateOrder;
+using Ordering.Application.Features.Orders.Queries.GetOrdersByCountry;
+using Ordering.Application.Features.Orders.Queries.GetOrdersByEmail;
+using Ordering.Application.Features.Orders.Queries.GetOrdersByFirstName;
+using Ordering.Application.Features.Orders.Queries.GetOrdersByLastName;
 using Ordering.Application.Features.Orders.Queries.GetOrdersList;
 using System;
 using System.Collections.Generic;
@@ -31,8 +35,48 @@ namespace Ordering.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<OrdersVm>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<OrdersVm>>> GetOrdersByUserName(string userName)
         {
-            var query = new GetOrdersListQuery(userName); //Set query and get get orders
+            var query = new GetOrdersListQuery(userName); //Set query and get orders
             var orders = await _mediator.Send(query); //Handle
+            return Ok(orders);
+        }
+
+        [Route("[action]/{firstName}", Name = "ByFirstName")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<OrdersVm>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<OrdersVm>>> ByFirstName(string firstName)
+        {
+            var query = new GetOrdersByFirstNameQuery(firstName); //Set query and get orders
+            var orders = await _mediator.Send(query); //Handle
+            return Ok(orders);
+        }
+
+        [Route("[action]/{lastName}", Name = "ByLastName")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<OrdersVm>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<OrdersVm>>> ByLastName(string lastName)
+        {
+            var query = new GetOrdersByLastNameQuery(lastName); //Set query and get orders
+            var orders = await _mediator.Send(query); //Handle
+            return Ok(orders);
+        }
+
+        [Route("[action]/{email}", Name = "ByEmail")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<OrdersVm>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<OrdersVm>>> ByEmail(string email)
+        {
+            var query = new GetOrdersByEmailQuery(email); //Set query and get orders
+            var orders = await _mediator.Send(query); //Handle
+            return Ok(orders);
+        }
+
+        [Route("[action]/{country}", Name = "ByCountry")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<OrdersVm>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<OrdersVm>>> ByCountry(string country)
+        {
+            var query = new GetOrdersByCountryQuery(country); //SEt query and get orders
+            var orders = await _mediator.Send(query);
             return Ok(orders);
         }
 

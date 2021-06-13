@@ -11,6 +11,9 @@ services:
   catalogclient:
     image: mongoclient/mongoclient
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
 # Databases
   catalogdb:
     image: mongo
