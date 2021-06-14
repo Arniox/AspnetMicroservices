@@ -32,6 +32,9 @@ namespace Basket.API
 
             //Dependency Injection for the IBasketRepository
             services.AddScoped<IBasketRepository, BasketRepository>();
+            //Add automapper profile
+            services.AddAutoMapper(typeof(Startup));
+
             //Regester Client
             services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
                 (options => options.Address = new Uri(Configuration.GetValue<string>("GrpcSettings:DiscountUri")));
