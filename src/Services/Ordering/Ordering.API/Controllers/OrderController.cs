@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ordering.Application.Exceptions;
 using Ordering.Application.Features.Orders.Commands.CheckoutOrder;
 using Ordering.Application.Features.Orders.Commands.DeleteOrder;
+using Ordering.Application.Features.Orders.Commands.DeleteOrders;
 using Ordering.Application.Features.Orders.Commands.UpdateOrder;
 using Ordering.Application.Features.Orders.Queries.GetOrdersByCountry;
 using Ordering.Application.Features.Orders.Queries.GetOrdersByEmail;
@@ -117,6 +118,25 @@ namespace Ordering.API.Controllers
             {
                 //Get command
                 var command = new DeleteOrderCommand() { Id = id };
+                await _mediator.Send(command); //Handle
+            } catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            return NoContent();
+        }
+
+        [Route("[action]", Name = "DeleteOrders")]
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteOrders([FromBody] List<int> ids)
+        {
+            try
+            {
+                //Get command
+                var command = new DeleteOrdersCommand() { Ids = ids };
                 await _mediator.Send(command); //Handle
             } catch(NotFoundException ex)
             {

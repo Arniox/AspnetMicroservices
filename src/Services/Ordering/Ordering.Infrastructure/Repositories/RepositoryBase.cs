@@ -62,6 +62,12 @@ namespace Ordering.Infrastructure.Repositories
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
+        public async Task<List<T>> GetByIdListAsync(List<int> ids)
+        {
+            //Get full list
+            List<T> fullList = await _dbContext.Set<T>().ToListAsync();
+            return fullList.Where(o => ids.Any(p => p == o.Id)).ToList();
+        }
         public async Task<T> AddAsync(T entity)
         {
             _dbContext.Set<T>().Add(entity);
@@ -76,6 +82,11 @@ namespace Ordering.Infrastructure.Repositories
         public async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task DeleteManyAsync(List<T> entities)
+        {
+            _dbContext.Set<T>().RemoveRange(entities);
             await _dbContext.SaveChangesAsync();
         }
     }

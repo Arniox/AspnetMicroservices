@@ -59,6 +59,13 @@ namespace Ordering.Application.Contracts.Persistence
         Task<T> GetByIdAsync(int id);
 
         /// <summary>
+        /// Async get <typeparamref name="T"/> By <typeparamref name="ids"/>
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns><typeparamref name="T"/></returns>
+        Task<List<T>> GetByIdListAsync(List<int> ids);
+
+        /// <summary>
         /// Async create new <typeparamref name="entity"/>
         /// </summary>
         /// <param name="entity"></param>
@@ -78,5 +85,12 @@ namespace Ordering.Application.Contracts.Persistence
         /// <param name="entity"></param>
         /// <returns></returns>
         Task DeleteAsync(T entity);
+
+        /// <summary>
+        /// Async delete many <typeparamref name="entites"/>
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task DeleteManyAsync(List<T> entities);
     }
 }
