@@ -15,14 +15,7 @@
       ],
       "UpstreamPathTemplate": "/Catalog",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
-      "FileCacheOptions": { "TtlSeconds": 30 },
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "FileCacheOptions": { "TtlSeconds": 30 }
     },
     {
       //Get By Id
@@ -35,14 +28,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/{id}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
       //Get By Name
@@ -55,14 +41,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetProductByName/{name}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       //Get By Category
@@ -75,14 +54,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog/GetProductByCategory/{category}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
 
 
@@ -99,14 +71,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Basket/{userName}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET", "DELETE" ]
     },
     {
       //Update Basket
@@ -163,14 +128,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/{userName}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       //Get By FirstName
@@ -183,14 +141,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/ByFirstName/{firstName}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       //Get By LastName
@@ -203,14 +154,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/ByLastName/{lastName}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       //Get By Email
@@ -223,14 +167,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/ByEmail/{email}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       //Get By Country
@@ -243,14 +180,7 @@
         }
       ],
       "UpstreamPathTemplate": "/Order/ByCountry/{country}",
-      "UpstreamHttpMethod": [ "GET" ],
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      }
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {
