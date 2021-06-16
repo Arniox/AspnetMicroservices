@@ -46,7 +46,8 @@ namespace AspnetRunBasics.Pages
                 ProductName = product.Name,
                 Price = product.Price,
                 Quantity = 1,
-                Color = "Black"
+                Color = "Black",
+                Description = product.Summary + "</br>" + product.Description
             });
 
             //Update basket
