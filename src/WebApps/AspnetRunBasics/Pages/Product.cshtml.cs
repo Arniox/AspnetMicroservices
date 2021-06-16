@@ -29,7 +29,7 @@ namespace AspnetRunBasics
         [BindProperty(SupportsGet = true)]
         public string SelectedCategory { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string categoryName)
+        public async Task<IActionResult> OnGetAsync(string categoryId)
         {
             //Get product list
             var productList = await _catalogService.GetCatalog();
@@ -37,11 +37,11 @@ namespace AspnetRunBasics
             CategoryList = productList.Select(p => p.Category).Distinct();
 
             //Check if selected category is empty or not
-            if (!string.IsNullOrWhiteSpace(categoryName))
+            if (!string.IsNullOrWhiteSpace(categoryId))
             {
                 //If Category is selected then filter products by category selected
-                ProductList = productList.Where(p => p.Category == categoryName);
-                SelectedCategory = categoryName;
+                ProductList = productList.Where(p => p.Category == categoryId);
+                SelectedCategory = categoryId;
             }
             else
             {

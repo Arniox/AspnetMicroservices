@@ -30,6 +30,24 @@ namespace AspnetRunBasics
             return Page();
         }
 
+        public async Task<IActionResult> OnPostQuantityChange(string productId, int quantity)
+        {
+            //Get username
+            var userName = "nikkolas";
+            //Get cart
+            Cart = await _basketService.GetBasket(userName);
+            //Get product in cart and set quantity
+            if(Cart.Items.Count() > 0 && Cart.Items.Any(o => o.ProductId == productId))
+            {
+                //Set quantity
+                Cart.Items.Find(o => o.ProductId == productId).Quantity = quantity;
+            }
+
+            //Update basket
+            var basketUpdated = await _basketService.UpdateBasket(Cart);
+            return RedirectToPage();
+        }
+
         public async Task<IActionResult> OnPostRemoveToCartAsync(string productId)
         {
             //Get username and basket
