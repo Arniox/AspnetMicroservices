@@ -1,7 +1,7 @@
-﻿using AspnetRunBasics.Models;
+﻿using AspnetRunBasics.Extensions;
+using AspnetRunBasics.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -17,25 +17,46 @@ namespace AspnetRunBasics.Services
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
-
-        public async Task<CatalogModel> CreateCatalog(CatalogModel model)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<CatalogModel>> GetCatalog()
         {
-            throw new NotImplementedException();
+            //Get response
+            var response = await _client.GetAsync("/Catalog");
+            return await response.ReadAsJsonAsync<IEnumerable<CatalogModel>>(); //Return
         }
 
         public async Task<CatalogModel> GetCatalog(string id)
         {
-            throw new NotImplementedException();
+            //Get response
+            var response = await _client.GetAsync($"/Catalog/{id}");
+            return await response.ReadAsJsonAsync<CatalogModel>(); //Return
         }
 
         public async Task<IEnumerable<CatalogModel>> GetCatalogByCategory(string category)
         {
-            throw new NotImplementedException();
+            //Get response
+            var response = await _client.GetAsync($"/Catalog/GetProductByCategory/{category}");
+            return await response.ReadAsJsonAsync<List<CatalogModel>>(); //Return
         }
+
+        public async Task<IEnumerable<CatalogModel>> GetCatalogByName(string name)
+        {
+            //Get response
+            var response = await _client.GetAsync($"/Catalog/GetProductByName/{name}");
+            return await response.ReadAsJsonAsync<List<CatalogModel>>(); //Return
+        }
+
+        public async Task<CatalogModel> CreateCatalog(CatalogModel model)
+        {
+            //Send Request
+            var response = await _client.PostAsJson($"/Catalog", model);
+            if (response.IsSuccessStatusCode)
+                //Return
+                return await response.ReadAsJsonAsync<CatalogModel>();
+            else
+            {
+                throw new Exception("Something went wrong when calling an API.");
+            }
+        }
+
     }
 }
